@@ -1,29 +1,48 @@
+import argparse
 
+from settings import get_fullpath, get_denoise_filename
 from methods import GoogleAdapter, SphinxAdapter
+from denoise import denoise
 
-from settings import get_fullpath
+
+def get_args():
+    """Парсинг аргументов коммандной строки."""
+
+    parser = argparse.ArgumentParser(description="Приложение для преобразования аудио в формате wav в текст.")
+
+    subparsers = parser.add_subparsers(help="режимы работы", dest="subparser")
+
+    recognize_parser = subparsers.add_parser("recognize", help="режим преобразования аудио в текст")
+    recognize_parser.add_argument("-t", "--type", choices=["google", "sphinx"], help="тип преобразователя", dest="type", required=True)
+
+    denoise_parser = subparsers.add_parser("denoise", help="режим удаления шума из аудио")
+    
+    parser.add_argument("-f", "--file", help="путь к файлу с аудио", dest="file", required=True)
+    args = parser.parse_args()
+    return args
+
+
+def main():
+    args = get_args()
+
+    if args.subparser is None:
+        return
+
+    filename = args.file
+
+    if args.subparser == "denoise":
+        output_filename = get_denoise_filename(filename)
+        denoise(filename, output_filename)
+
+    if args.subparser == "recognize":
+        if args.type == "google":
+            adapter = GoogleAdapter() 
+        elif args.type == "sphinx":
+            adapter = SphinxAdapter()
+        
+        text = adapter.speech_to_text(filename)
+        print(text)
 
 
 if __name__ == "__main__":
-    files = [
-        ("early_short_stories_0001.wav", "kaggle"),
-        ("early_short_stories_0002.wav", "kaggle"),
-        ("early_short_stories_0003.wav", "kaggle"),
-        ("early_short_stories_0004.wav", "kaggle"),
-        ("early_short_stories_0005.wav", "kaggle"),
-        ("decoder-test.wav", None),
-        ("machine-short.wav", None),
-        ("machine.wav", None),
-        ("russian-short.wav", None),
-        ("russian.wav", None),
-    ]
-
-    for filename, directory in files:
-        filename = get_fullpath(filename, directory=directory)
-        try:
-            google_text = GoogleAdapter().speech_to_text(filename)
-        except:
-            google_text = "No"
-        sphinx_text = SphinxAdapter().speech_to_text(filename)
-        print(google_text)
-        print(sphinx_text)
+    main()
