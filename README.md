@@ -9,6 +9,8 @@
 pip install SpeechRecognition
 ```
 
+[Документация](https://pypi.org/project/SpeechRecognition/).
+
 * Установка `pocketsphinx`: можно скачать [здесь](https://pypi.org/project/pocketsphinx/#files).
 
 * Скачивание обученной модели для русского языка на основе HMM: [здесь](https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Language%20Models/Russian/). 
@@ -28,6 +30,8 @@ pocketsphinx-data \
 ```
 pip install logmmse
 ```
+
+[Документация](https://pypi.org/project/logmmse/).
 
 * Запускаем `python main.py`.
 
