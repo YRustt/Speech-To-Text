@@ -4,12 +4,12 @@
 
 * Нужен python3.6.
 
-* Установка SpeechRecognition:
+* Установка `SpeechRecognition`:
 ```
 pip install SpeechRecognition
 ```
 
-* Установка pocketsphinx: можно скачать [здесь](https://pypi.org/project/pocketsphinx/#files).
+* Установка `pocketsphinx`: можно скачать [здесь](https://pypi.org/project/pocketsphinx/#files).
 
 * Скачивание обученной модели для русского языка на основе HMM: [здесь](https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Language%20Models/Russian/). 
 
@@ -23,6 +23,11 @@ pocketsphinx-data \
         pronounciation-dictionary.dict
 ```
 и подкладываем эти файлы в директорию: `...\AppData\Local\Programs\Python\Python36\Lib\site-packages\speech_recognition\pocketsphinx-data`.
+
+* Установка `logmmse`.
+```
+pip install logmmse
+```
 
 * Запускаем `python main.py`.
 
