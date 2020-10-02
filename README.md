@@ -33,7 +33,11 @@ pip install logmmse
 
 [Документация](https://pypi.org/project/logmmse/).
 
-* Запускаем `python main.py`.
+* Варианты запуска:
+```
+python main.py --file={path\to\wav-file} denoise
+python main.py --file={path\to\wav-file} recognize --type={google,sphinx} [--duration={duration}]
+```
 
 ---
 
@@ -41,11 +45,7 @@ pip install logmmse
 
 * __Google.__ Используя библиотеку `SpeechRecognition`. Нет возможности обработать файлы, которые больше 5 минут. Для некоторых аудио не возвращается ни одного варианта текста.
 
-* __Pocketsphinx.__ Используя библиотеку `SpeechRecognition`. Работает локально и очень медленно.
-
-* __Yandex.__ Нужно создавать аккаунт для юридического лица и это платно.
-
-* __Kaldi.__ Нужно попробовать запустить на Ubuntu.
+* __Pocketsphinx.__ Используя библиотеки `SpeechRecognition` и `Pocketsphinx`. Работает локально и очень медленно.
 
 ---
 
