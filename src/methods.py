@@ -1,33 +1,34 @@
 from abc import ABCMeta, abstractmethod
 
-from speech_recognition import AudioFile, Recognizer
-
-from settings import get_fullpath
+from speech_recognition import AudioFile, Recognizer, UnknownValueError
 
 
 class SpeechRecognitionMethod:
-    def __init__(self, filename):
+    def __init__(self, filename, duration=None):
         self.__filename = filename
+        self.__duration = duration
+
+    def __recognize(self, method):
+        audio = AudioFile(self.__filename)
+        recognizer = Recognizer()
+
+        with audio as audio_file:
+            result_text = []
+            try:
+                while True:
+                    audio_content = recognizer.record(audio_file, duration=self.__duration)
+                    text = getattr(recognizer, method)(audio_content, language="ru-RU")
+                    result_text.append(text)
+            except UnknownValueError as er:
+                print("End", er)
+
+        return " ".join(result_text)
 
     def recognize_google(self):
-        audio = AudioFile(self.__filename)
-        recognizer = Recognizer()
-
-        with audio as audio_file:
-            audio_content = recognizer.record(audio_file)
-            result = recognizer.recognize_google(audio_content, language="ru-RU")
-
-        return result
+        return self.__recognize("recognize_google")
 
     def recognize_sphinx(self):
-        audio = AudioFile(self.__filename)
-        recognizer = Recognizer()
-
-        with audio as audio_file:
-            audio_content = recognizer.record(audio_file)
-            result = recognizer.recognize_sphinx(audio_content, language="ru-RU")
-
-        return result
+        return self.__recognize("recognize_sphinx")
 
 
 class YandexSpeechMethod:
@@ -35,7 +36,7 @@ class YandexSpeechMethod:
         pass
 
     def recognize(self):
-        pass
+        raise NotImplementedError()
 
 
 class KaldiSpeechMethod:
@@ -43,7 +44,7 @@ class KaldiSpeechMethod:
         pass
 
     def recognize(self):
-        pass
+        raise NotImplementedError()
 
 
 class Adapter(metaclass=ABCMeta):
@@ -53,14 +54,14 @@ class Adapter(metaclass=ABCMeta):
 
 
 class GoogleAdapter(Adapter):
-    def speech_to_text(self, filename):
-        method = SpeechRecognitionMethod(filename)
+    def speech_to_text(self, filename, duration=None):
+        method = SpeechRecognitionMethod(filename, duration)
         return method.recognize_google()
 
 
 class SphinxAdapter(Adapter):
-    def speech_to_text(self, filename):
-        method = SpeechRecognitionMethod(filename)
+    def speech_to_text(self, filename, duration=None):
+        method = SpeechRecognitionMethod(filename, duration)
         return method.recognize_sphinx()
 
 

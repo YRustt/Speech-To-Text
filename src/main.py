@@ -14,6 +14,7 @@ def get_args():
 
     recognize_parser = subparsers.add_parser("recognize", help="режим преобразования аудио в текст")
     recognize_parser.add_argument("-t", "--type", choices=["google", "sphinx"], help="тип преобразователя", dest="type", required=True)
+    recognize_parser.add_argument("-d", "--duration", help="длина промежутка в секундах", type=int, dest="duration", required=False)
 
     denoise_parser = subparsers.add_parser("denoise", help="режим удаления шума из аудио")
     
@@ -40,7 +41,8 @@ def main():
         elif args.type == "sphinx":
             adapter = SphinxAdapter()
         
-        text = adapter.speech_to_text(filename)
+        duration = args.duration
+        text = adapter.speech_to_text(filename, duration)
         print(text)
 
 
