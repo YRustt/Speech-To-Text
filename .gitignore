@@ -3,3 +3,6 @@ __pycache__/
 
 # pocketsphinx
 pocketsphinx-data/
+
+# credentials
+credentials.json
