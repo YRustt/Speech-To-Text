@@ -15,7 +15,7 @@
 
 Обучение моделей:
 * deepspeech от mozilla
-* wav2vec от facebook
+* wav2letter от facebook
 * kaldi от какого-то университета
 
 Проблемы:
