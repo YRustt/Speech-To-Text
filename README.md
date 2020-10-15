@@ -13,6 +13,15 @@
 * [Zapisano.org](https://app.zapisano.org/guest/transcript) - 29 рос. рублей - 1 рабочий день.
 * [Voco](https://www.speechpro.ru/product/programmy-dlya-raspoznavaniya-rechi-v-tekst/voco) - 15500 рос. рублей на год. Многопользовательская версия - 56000 рос. рублей.
 
+Обучение моделей:
+* deepspeech от mozilla
+* wav2vec от facebook
+* kaldi от какого-то университета
+
+Проблемы:
+* нет данных для обучения
+* нужно машины с GPU и большим количесвом RAM для видеокарт
+* нужны люди, которые могут разобраться, как запустить обучение
 
 ### Установка на Windows
 
