@@ -1,3 +1,6 @@
+# PyCharm
+.idea/
+
 # CPython
 __pycache__/
 
@@ -5,4 +8,4 @@ __pycache__/
 pocketsphinx-data/
 
 # credentials
-credentials.json
+credentials/
