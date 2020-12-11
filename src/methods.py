@@ -55,20 +55,28 @@ class KaldiSpeechMethod:
 class GoogleCloudSpeechMethod:
     CREDENTIALS_VAR = "GOOGLE_APPLICATION_CREDENTIALS"
 
-    def __init__(self, filename):
+    def __init__(self, filename=None, uri=None, long=False):
         self.__filename = filename
+        self.__uri = uri
+        self.__long_running = long
 
         os.environ[self.CREDENTIALS_VAR] = CREDENTIALS_FILE
         self.__client = speech.SpeechClient()
 
     def __get_audio(self):
-        with wave.open(self.__filename, "rb") as file:
-            audio_channel_count = file.getnchannels()
-            sample_rate_herts = file.getframerate()
-            content = file.readframes(file.getnframes())
-            audio = speech.RecognitionAudio(content=content)
+        if self.__filename is not None:
+            with wave.open(self.__filename, "rb") as file:
+                audio_channel_count = file.getnchannels()
+                sample_rate_herts = file.getframerate()
+                content = file.readframes(file.getnframes())
+                audio = speech.RecognitionAudio(content=content)
 
-        return audio, audio_channel_count, sample_rate_herts
+            return audio, audio_channel_count, sample_rate_herts
+        else:
+            audio = speech.RecognitionAudio(uri=self.__uri)
+            audio_channel_count = 2
+            sample_rate_herts = 44100
+            return audio, audio_channel_count, sample_rate_herts
 
     def recognize(self):
         audio, audio_channel_count, sample_rate_herts = self.__get_audio()
@@ -78,10 +86,15 @@ class GoogleCloudSpeechMethod:
             sample_rate_hertz=sample_rate_herts,
             audio_channel_count=audio_channel_count
         )
-        response = self.__client.recognize(config=config, audio=audio)
+        if not self.__long_running:
+            response = self.__client.recognize(config=config, audio=audio)
+        else:
+            operation = self.__client.long_running_recognize(config=config, audio=audio)
+            response = operation.result(timeout=90)
 
         print(response.results)
-        return response.results[0].alternatives[0].transcript
+        result = " ".join(res.alternatives[0].transcript for res in response.results)
+        return result
 
     def __del__(self):
         self.__client = None
@@ -90,35 +103,35 @@ class GoogleCloudSpeechMethod:
 
 class Adapter(metaclass=ABCMeta):
     @abstractmethod
-    def speech_to_text(self, filename, duration=None):
+    def speech_to_text(self, **kwargs):
         pass
 
 
 class GoogleAdapter(Adapter):
-    def speech_to_text(self, filename, duration=None):
+    def speech_to_text(self, filename, duration=None, **kwargs):
         method = SpeechRecognitionMethod(filename, duration)
         return method.recognize_google()
 
 
 class SphinxAdapter(Adapter):
-    def speech_to_text(self, filename, duration=None):
+    def speech_to_text(self, filename, duration=None, **kwargs):
         method = SpeechRecognitionMethod(filename, duration)
         return method.recognize_sphinx()
 
 
 class YandexAdapter(Adapter):
-    def speech_to_text(self, filename, duration=None):
+    def speech_to_text(self, filename, **kwargs):
         method = YandexSpeechMethod(filename)
         return method.recognize()
 
 
 class KaldiAdapter(Adapter):
-    def speech_to_text(self, filename, duration=None):
+    def speech_to_text(self, filename, **kwargs):
         method = KaldiSpeechMethod(filename)
         return method.recognize()
 
 
 class GoogleCloudAdapter(Adapter):
-    def speech_to_text(self, filename, duration=None):
-        method = GoogleCloudSpeechMethod(filename)
+    def speech_to_text(self, filename=None, uri=None, long=None, **kwargs):
+        method = GoogleCloudSpeechMethod(filename=filename, uri=uri, long=long)
         return method.recognize()
