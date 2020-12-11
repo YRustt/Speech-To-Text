@@ -1,7 +1,7 @@
 import argparse
 
 from settings import get_fullpath, get_denoise_filename
-from methods import GoogleAdapter, SphinxAdapter
+from methods import GoogleAdapter, SphinxAdapter, GoogleCloudAdapter
 from denoise import denoise
 
 
@@ -13,7 +13,7 @@ def get_args():
     subparsers = parser.add_subparsers(help="режимы работы", dest="subparser")
 
     recognize_parser = subparsers.add_parser("recognize", help="режим преобразования аудио в текст")
-    recognize_parser.add_argument("-t", "--type", choices=["google", "sphinx"], help="тип преобразователя", dest="type", required=True)
+    recognize_parser.add_argument("-t", "--type", choices=["google", "sphinx", "google.cloud"], help="тип преобразователя", dest="type", required=True)
     recognize_parser.add_argument("-d", "--duration", help="длина промежутка в секундах", type=int, dest="duration", required=False)
 
     denoise_parser = subparsers.add_parser("denoise", help="режим удаления шума из аудио")
@@ -40,6 +40,8 @@ def main():
             adapter = GoogleAdapter() 
         elif args.type == "sphinx":
             adapter = SphinxAdapter()
+        elif args.type == "google.cloud":
+            adapter = GoogleCloudAdapter()
         
         duration = args.duration
         text = adapter.speech_to_text(filename, duration)

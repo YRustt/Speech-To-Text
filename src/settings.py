@@ -4,6 +4,8 @@ import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.dirname(BASE_DIR)
 DATASET_DIR = os.path.join(ROOT_DIR, "dataset")
+CREDENTIALS_DIR = os.path.join(ROOT_DIR, "credentials")
+CREDENTIALS_FILE = os.path.join(CREDENTIALS_DIR, "key.json")
 
 
 def get_fullpath(filename, *, directory=None):
