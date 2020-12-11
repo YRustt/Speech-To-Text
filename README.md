@@ -52,7 +52,7 @@ pip install google
 * В консоле разработчика в поиске ищем "Storage".
 * Создаем бакет и добавляем туда файлы с аудио в формате wav.
 
-* Варианты запуска:
+### Варианты запуска:
 ```
 python main.py --file={path\to\wav-file} denoise
 python main.py [--file={path\to\wav-file}] recognize --type={google,sphinx,google.cloud} 
