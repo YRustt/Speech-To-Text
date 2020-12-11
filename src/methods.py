@@ -1,4 +1,5 @@
 import os
+import wave
 from abc import ABCMeta, abstractmethod
 
 from speech_recognition import AudioFile, Recognizer, UnknownValueError
@@ -61,18 +62,21 @@ class GoogleCloudSpeechMethod:
         self.__client = speech.SpeechClient()
 
     def __get_audio(self):
-        with open(self.__filename, "rb") as file:
-            content = file.read()
+        with wave.open(self.__filename, "rb") as file:
+            audio_channel_count = file.getnchannels()
+            sample_rate_herts = file.getframerate()
+            content = file.readframes(file.getnframes())
             audio = speech.RecognitionAudio(content=content)
-        return audio
+
+        return audio, audio_channel_count, sample_rate_herts
 
     def recognize(self):
-        audio = self.__get_audio()
+        audio, audio_channel_count, sample_rate_herts = self.__get_audio()
         config = speech.RecognitionConfig(
-            encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
-            sample_rate_hertz=22050,
             language_code="ru-RU",
-            audio_channel_count=2
+            encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
+            sample_rate_hertz=sample_rate_herts,
+            audio_channel_count=audio_channel_count
         )
         response = self.__client.recognize(config=config, audio=audio)
 
