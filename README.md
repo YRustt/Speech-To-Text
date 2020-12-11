@@ -60,6 +60,11 @@ pip install logmmse
 pip install google
 ```
 
+[Transcribing long audio files](https://cloud.google.com/speech-to-text/docs/async-recognize#speech_transcribe_async_gcs-python)
+
+[Quickstart: Using client libraries](https://cloud.google.com/speech-to-text/docs/quickstart-client-libraries#client-libraries-usage-python)
+
+
 ##### Настройка ключа для авторизации в Google Cloud Speech API
 
 * Заходим в [консоль разработчика](https://console.cloud.google.com/).
@@ -130,8 +135,3 @@ python main.py --file={path\to\wav-file} recognize --type={google,sphinx,google.
 |Оригинал|                      |
 |Google duration=30 | почитал было Единый классификатор для поиска это было уговаривать уже при наличии слева трамвайных путей попутного направления расположенных на одном уровне с проезжей части поворот налево и разворот и должны выполняться из этих путей если знаками 5.8 не предписанный порядок движения при этом не должно создаваться препятствие трамваев поворот должен осуществляться таким образом чтобы пересечения проезжих частей транспортное средство не оказалось на стороне встречного движения при повороте направо транспортное средство должно двигаться ближе к правому краю проезжей части перед поворотом налево или разворота вне перекрестка водитель безрельсового транспортного средства обязан уступить дорогу встречным транспортным средствам и трамваю попутного направления дальше |
 |Sphinx duration=30 | да вы и я же к рождеству равно к твому были заперты в бальном зале как это будет работать в двести тысяч в на нем взведённый взглядом в поэта приезжали в этом они бы смотреть на меня в рейхе воли говори признайтесь мне национальных попутного направления она товаров наверно она и на то вы не в порядке вернуться на трамвае товара таким образом були пересечения зарезать тебя да не оказалось товар обратно в замок разольется и лейтенанта наверно в окна в ноги и ликвидирована знали обязан егорова на трамвае в выздоровления в |
-
-
-[Transcribing long audio files](https://cloud.google.com/speech-to-text/docs/async-recognize#speech_transcribe_async_gcs-python)
-
-[Quickstart: Using client libraries](https://cloud.google.com/speech-to-text/docs/quickstart-client-libraries#client-libraries-usage-python)
