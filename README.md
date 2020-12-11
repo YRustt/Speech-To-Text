@@ -88,7 +88,7 @@ python main.py --file={path\to\wav-file} recognize --type={google,sphinx,google.
 
 * __Pocketsphinx.__ Используя библиотеки `SpeechRecognition` и `Pocketsphinx`. Работает локально и очень медленно.
 
-* __Google Cloud.__ Используя библиотеку `Google`. Для обработки файлов больше 1 минуты, нужно сохранять их в bucket.
+* __Google Cloud.__ Используя библиотеку `Google`. Для обработки файлов больше 1 минуты или 10485760 байт, нужно сохранять в bucket.
 
 ---
 
