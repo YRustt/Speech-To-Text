@@ -76,8 +76,8 @@ class GoogleCloudSpeechMethod:
         )
         response = self.__client.recognize(config=config, audio=audio)
 
-        for result in response.results:
-            print("Transcript: {}".format(result.alternatives[0].transcript))
+        print(response.results)
+        return response.results[0].alternatives[0].transcript
 
     def __del__(self):
         self.__client = None
