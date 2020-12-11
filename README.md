@@ -69,15 +69,19 @@ pip install google
 
 * Заходим в [консоль разработчика](https://console.cloud.google.com/).
 * В поиске ищем "Speech-to-Text API", выбираем и активируем.
-* В появившемся окне выбираем пункт меню "Credentials" и создаём "Service Account". ~~При создании выбираем роль "Storage Admin" (эта роль позволяет получить доступ по uri к файлам в бакете).~~
+* В появившемся окне выбираем пункт меню "Credentials" и создаём "Service Account".
 * Добавляем JSON-ключ в аккаунт, скачиваем и подкладываем файл в директорию credentials под названием key.json.
-* ~~В консоле разработчика в поиске ищем "Storage".~~
-* ~~Создаем бакет и добавляем туда файлы с аудио в формате flac.~~
+
+##### Для длинных аудио
+* При создании "Service Account" выбираем роль "Storage Admin" (эта роль позволяет получить доступ по uri к файлам в бакете).
+* В консоле разработчика в поиске ищем "Storage".
+* Создаем бакет и добавляем туда файлы с аудио в формате wav.
 
 * Варианты запуска:
 ```
 python main.py --file={path\to\wav-file} denoise
-python main.py --file={path\to\wav-file} recognize --type={google,sphinx,google.cloud} [--duration={duration}]
+python main.py [--file={path\to\wav-file}] recognize --type={google,sphinx,google.cloud} 
+               [--duration={duration}] [--uri=gc://bucket-name/uri] [--long]
 ```
 
 ---
